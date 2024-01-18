@@ -40,6 +40,8 @@ class MainActivity : AppCompatActivity() {
 
             layoutToPrint.post {
                 printPdfButton.setOnClickListener {
+                    printPdfButton.visibility = View.INVISIBLE
+                    selectImageButton.visibility = View.INVISIBLE
                     checkPermissionAndSave()
                 }
             }
