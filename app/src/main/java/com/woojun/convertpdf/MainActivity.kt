@@ -8,6 +8,8 @@ import android.print.PrintAttributes
 import android.print.pdf.PrintedPdfDocument
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,6 +22,14 @@ import java.io.IOException
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val REQUEST_CODE_PERMISSION = 1
+    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) {
+            binding.imageView.setImageURI(uri)
+        } else {
+            Toast.makeText(this@MainActivity, "오류 다시 선택해주세요", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -32,6 +42,10 @@ class MainActivity : AppCompatActivity() {
                 layoutToPrint.setOnClickListener {
                     checkPermissionAndSave()
                 }
+            }
+
+            selectImageButton.setOnClickListener {
+                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
         }
     }
