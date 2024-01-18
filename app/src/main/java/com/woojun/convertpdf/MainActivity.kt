@@ -21,6 +21,7 @@ import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
     private val REQUEST_CODE_PERMISSION = 1
     private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) {
@@ -36,12 +37,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.apply {
-            Toast.makeText(this@MainActivity, "화면을 클릭해서 PDF를 다운로드 해보세요", Toast.LENGTH_SHORT).show()
 
             layoutToPrint.post {
                 printPdfButton.setOnClickListener {
                     printPdfButton.visibility = View.INVISIBLE
                     selectImageButton.visibility = View.INVISIBLE
+                    editText.hint = ""
+                    editText.isCursorVisible = false
                     checkPermissionAndSave()
                 }
             }
@@ -78,11 +80,9 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_PERMISSION && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            binding.apply {
-                Toast.makeText(this@MainActivity, "다운로드", Toast.LENGTH_SHORT).show()
-                convertLayoutToPDF(layoutToPrint)
-            }
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            Toast.makeText(this@MainActivity, "다운로드", Toast.LENGTH_SHORT).show()
+            convertLayoutToPDF(binding.layoutToPrint)
         } else {
             Toast.makeText(this, "권한을 거부하면 사용하실 수 없습니다", Toast.LENGTH_SHORT).show()
         }
@@ -102,6 +102,13 @@ class MainActivity : AppCompatActivity() {
 
         view.draw(page.canvas)
         pdfDocument.finishPage(page)
+
+        binding.apply {
+            printPdfButton.visibility = View.VISIBLE
+            selectImageButton.visibility = View.VISIBLE
+            editText.hint = "텍스트를 입력해주세요"
+            editText.isCursorVisible = true
+        }
 
         val filePath = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "myPDF.pdf")
         try {
