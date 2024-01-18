@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
 
             selectImageButton.setOnClickListener {
                 pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                selectImageButton.visibility = View.GONE
             }
         }
     }
