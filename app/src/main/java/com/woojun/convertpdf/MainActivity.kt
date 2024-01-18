@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this@MainActivity, "화면을 클릭해서 PDF를 다운로드 해보세요", Toast.LENGTH_SHORT).show()
 
             layoutToPrint.post {
-                layoutToPrint.setOnClickListener {
+                printPdfButton.setOnClickListener {
                     checkPermissionAndSave()
                 }
             }
