@@ -7,18 +7,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@color/black"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
-    <TextView
-        android:textColor="@color/white"
-        android:textSize="34sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello, PDF!" />
-
     <ImageView
-        android:src="@drawable/dog"
+        android:layout_marginTop="20dp"
+        android:id="@+id/image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:hint="텍스트를 입력해주세요"
+        android:background="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:layout_marginTop="50dp"
+        android:id="@+id/select_image_button"
+        android:backgroundTint="#777"
+        android:layout_gravity="center"
+        android:text="이미지 선택"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
